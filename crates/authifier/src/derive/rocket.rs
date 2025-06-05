@@ -5,6 +5,7 @@ use rocket::{
     response::{self, Responder},
     Request, Response,
 };
+use serde_json::json;
 
 use crate::{
     config::{ResolveIp, ShieldValidationInput},
