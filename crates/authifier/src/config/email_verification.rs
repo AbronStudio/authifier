@@ -27,8 +27,13 @@ pub struct SMTPSettings {
     pub password: String,
 
     /// Whether to use TLS
+    pub use_tls: Option<bool>, 
+    
+    /// Whether to use StartTls
     pub use_tls: Option<bool>,
 }
+
+
 
 /// Email template
 #[derive(Serialize, Deserialize, Clone)]
@@ -103,7 +108,11 @@ pub enum EmailVerificationConfig {
 impl SMTPSettings {
     /// Create SMTP transport
     pub fn create_transport(&self) -> SmtpTransport {
-        let relay = SmtpTransport::relay(&self.host).unwrap();
+        let relay = if let Some(true) = self.use_starttls {
+            SmtpTransport::starttls_relay(&self.host).unwrap()
+        } else {
+            SmtpTransport::relay(&self.host).unwrap()
+        };
         let relay = if let Some(port) = self.port {
             relay.port(port.try_into().unwrap())
         } else {
