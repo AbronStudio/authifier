@@ -30,7 +30,7 @@ pub struct SMTPSettings {
     pub use_tls: Option<bool>, 
     
     /// Whether to use StartTls
-    pub use_tls: Option<bool>,
+    pub use_starttls: Option<bool>,
 }
 
 
